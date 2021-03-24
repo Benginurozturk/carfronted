@@ -1,0 +1,79 @@
+<div id="search-car">
+  <div class="form-floating">
+    <input
+      type="text"
+      class="form-control"
+      id="search-car-input"
+      placeholder="Car Name"
+      [(ngModel)]="carFilterText"
+      (ngModelChange)="sendCarFilterText()"
+    />
+    <label for="search-car-input"><i class="fas fa-search"></i> Search</label>
+  </div>
+</div>
+<div id="brand-filter">
+  <div class="d-flex align-content-center my-3">
+    <span class="display-6 fw-bold d-flex align-items-center">Brand</span>
+    <div class="form-floating ms-3">
+      <input
+        type="text"
+        class="form-control border-0"
+        id="search-brand-input"
+        placeholder="Brand Name"
+        [(ngModel)]="brandFilterText"
+      />
+      <label for="search-brand-input" class="text-muted"
+        ><i class="fas fa-search"></i> Search</label
+      >
+    </div>
+  </div>
+
+  <select class="form-select" size="5" [(ngModel)]="activeBrandName">
+    <option [selected]="isBrandSelected()" [value]="undefined">All</option>
+    <option
+      *ngFor="let brand of brands | filterBrand: brandFilterText"
+      value="{{ brand.brandName }}"
+      [selected]="isBrandSelected(brand.brandName)"
+    >
+      {{ brand.brandName }}
+    </option>
+  </select>
+</div>
+
+<div id="color-filter">
+  <div class="d-flex align-content-center my-3">
+    <span class="display-6 fw-bold d-flex align-items-center">Color</span>
+    <div class="form-floating ms-3">
+      <input
+        type="text"
+        class="form-control border-0"
+        id="search-color-input"
+        placeholder="Color Name"
+        [(ngModel)]="colorFilterText"
+      />
+      <label for="search-color-input" class="text-muted"
+        ><i class="fas fa-search"></i> Search</label
+      >
+    </div>
+  </div>
+  <select class="form-select" size="5" [(ngModel)]="activeColorName">
+    <option [selected]="isColorSelected()" [value]="undefined">All</option>
+    <option
+      *ngFor="let color of colors | filterColor: colorFilterText"
+      [value]="color.colorName"
+      [selected]="isColorSelected(color.colorName)"
+    >
+      {{ color.colorName }}
+    </option>
+  </select>
+</div>
+
+<div class="mx-3">
+  <button
+    class="btn btn-primary my-3 w-100"
+    routerLink="./"
+    [queryParams]="{ brand: activeBrandName, color: activeColorName }"
+  >
+    Filter
+  </button>
+</div>
