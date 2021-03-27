@@ -1,16 +1,16 @@
-<div class="container-fluid container-md py-5 mb-5">
+<div class="container-fluid container-md py-5 mb-5 min-vh-100">
   <div class="row">
     <div class="col-lg">
-      <h1 class="display-1 fw-bold">{{ brand.brandName}}</h1>
+      <h1 class="display-1 fw-bold">{{ brand?.name }}</h1>
       <h2 class="display-3 fw-light">
-        {{ car.description }}
+        {{ car?.name }}
         <span class="border border-secondary rounded-1 px-3">{{
-          car.modelYear
+          car?.modelYear
         }}</span>
       </h2>
       <div class="my-5">
         <h6 class="display-6 fw-light">Description:</h6>
-        {{ car.description }}
+        {{ car?.description }}
       </div>
     </div>
     <div class="col-lg">
@@ -37,9 +37,9 @@
           >
             <div class="d-flex align-items-center justify-content-center h-100">
               <img
-                [src]="'http://localhost:44306/' + carImage.imagePath"
+                src="{{ getCarImageUrl(carImage.id) }}"
                 class="d-block w-100"
-                alt="Rent {{ brand.brandName }} {{ car.description }} {{
+                alt="Rent {{ brand.name }} {{ car.name }} {{
                   car.modelYear
                 }} Car Image"
               />

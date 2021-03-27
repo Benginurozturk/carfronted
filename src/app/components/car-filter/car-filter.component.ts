@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Brand } from 'src/app/models/brand';
 import { Color } from 'src/app/models/color';
@@ -13,13 +13,15 @@ import { ColorService } from 'src/app/services/color.service';
 export class CarFilterComponent implements OnInit {
   brands: Brand[] = [];
   colors: Color[] = [];
-  activeBrandName?: string;
-  activeColorName?: string;
+  activeBrandName?: string = '';
+  activeColorName?: string = '';
   brandFilterText: string = '';
   colorFilterText: string = '';
   carFilterText: string = '';
 
   @Output() carFilterTextEvent = new EventEmitter<string>();
+
+  @Input() isCompact: boolean = false;
 
   constructor(
     private brandService: BrandService,

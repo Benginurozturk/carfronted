@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Brand } from '../models/brand';
 import { ListResponseModel } from '../models/listResponseModel';
+import { ResponseModel } from '../models/responseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
 
 @Injectable({
@@ -11,6 +12,7 @@ import { SingleResponseModel } from '../models/singleResponseModel';
 })
 export class BrandService {
   apiUrl = `${environment.apiUrl}/brands`;
+  //apiControllerUrl = `${environment.apiUrl}/brands`;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -25,4 +27,24 @@ export class BrandService {
       `${this.apiUrl}/getbyid?id=${brandId}`
     );
   }
+  add(brand: Brand): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      `${this.apiUrl}/add`,
+      brand
+    );
+  }
+
+  update(brand: Brand): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      `${this.apiUrl}/update`,
+      brand
+    );
+  }
+
+  delete(brand: Brand): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      `${this.apiUrl}/delete`,
+      brand
+    );
+}
 }

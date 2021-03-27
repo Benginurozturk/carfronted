@@ -4,14 +4,17 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Car } from '../models/car';
 import { CarDetail } from '../models/carDetail';
+import { ResponseModel } from '../models/responseModel';
 import { ListResponseModel } from '../models/listResponseModel';
 import { SingleResponseModel } from '../models/singleResponseModel';
+import { CarDateCalculateDto } from '../models/carDateCalculateDto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarService {
   apiUrl = `${environment.apiUrl}/cars`;
+  //apiControllerUrl = `${environment.apiUrl}/cars`;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -31,6 +34,11 @@ export class CarService {
     );
   }
 
+  getCarTotalPrice(carDateCalculateDto:CarDateCalculateDto): Observable<SingleResponseModel<number>> {
+    return this.httpClient.post<SingleResponseModel<number>>(
+      `${this.apiUrl}/calculateprice`, carDateCalculateDto
+    );
+  }
   getCarDetailsByBrand(
     brandName: string
   ): Observable<ListResponseModel<CarDetail>> {
@@ -53,6 +61,26 @@ export class CarService {
   ): Observable<ListResponseModel<CarDetail>> {
     return this.httpClient.get<ListResponseModel<CarDetail>>(
       `${this.apiUrl}/getcardetailsbybrandnameandcolorname?brandName=${brandName}&colorName=${colorName}`
+    );
+  }
+  add(car: Car): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      `${this.apiUrl}/add`,
+      car
+    );
+  }
+
+  update(car: Car): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      `${this.apiUrl}/update`,
+      car
+    );
+  }
+
+  delete(car: Car): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      `${this.apiUrl}/delete`,
+      car
     );
   }
 }

@@ -84,8 +84,8 @@ export class CarPageComponent implements OnInit {
     console.log(this.car.carID);
 
     let rental: Rental = {
-      carId: this.car.carID,
-      customerId: 1003, // Test
+      carID: this.car.carID,
+      customerID: 1003, // Test
       rentStartDate: new Date(this.rentStartDate),
       rentEndDate: new Date(this.rentEndDate),
       returnDate: undefined,

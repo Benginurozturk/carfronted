@@ -11,7 +11,7 @@ import { CarImageService } from 'src/app/services/car-image.service';
 import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
 import { RentalService } from 'src/app/services/rental.service';
-import { RentalAddDto } from 'src/app/models/RentalAddDto';
+import { RentalAddDto } from 'src/app/models/rentalAddDto';
 @Component({
   selector: 'app-car-page',
   templateUrl: './car-page.component.html',
@@ -92,18 +92,21 @@ export class CarPageComponent implements OnInit {
     rentalAddDto.returnDate = undefined;
 
     let rental: Rental = {
-      carId: this.carId,
-      customerId: 1003, // Test
+      carID: this.carId,
+      customerID: 1003, // Test
       rentStartDate: new Date(this.rentStartDate),
       rentEndDate: new Date(this.rentEndDate),
       returnDate: undefined,
     };
 
+    let rentalId:number;
+
     this.rentalService.addRental(rentalAddDto).subscribe(
       (p) => {
+        rentalId = p.data;
         this.toastr.info('You are redirected to payment page.');
         this.rentalService.rentalCheckout = rental;
-        this.router.navigateByUrl('/checkout');
+        this.router.navigateByUrl('/checkout/'+ rentalId);
       },
       (error) => {
         if (error.status == 500)
