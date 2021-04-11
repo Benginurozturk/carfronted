@@ -7,5 +7,6 @@ export interface Car
     modelYear:number;
     dailyPrice:number;
     colorID:number;
-    brandID:number
+    brandID:number;
+    minFindeksScore: number;
 }

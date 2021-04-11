@@ -8,7 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SearchComponent } from './components/search/search.component';
 import { CarsListComponent } from './components/cars-list/cars-list.component';
 import { CarCardComponent } from './components/car-card/car-card.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { FilterByColorComponent } from './components/filter-by-color/filter-by-color.component';
 import { CarFilterComponent } from './components/car-filter/car-filter.component';
@@ -38,10 +38,25 @@ import { BrandAddFormComponent } from './components/pages/admin-dashboard-page/b
 import { BrandEditFormComponent } from './components/pages/admin-dashboard-page/brands-dashboard/brand-edit-form/brand-edit-form.component';
 import { ColorAddFormComponent } from './components/pages/admin-dashboard-page/colors-dashboard/color-add-form/color-add-form.component';
 import { ColorEditFormComponent } from './components/pages/admin-dashboard-page/colors-dashboard/color-edit-form/color-edit-form.component';
-import { OverlayComponent } from './pages/homepage/overlay/overlay.component';
+
 import { FilterByBrandBarComponent } from './components/filter-by-brand-bar/filter-by-brand-bar.component';
-import { HomepageComponent } from './pages/homepage/homepage.component';
+
 import { CheckoutPageComponent } from './components/pages/checkout-page/heckout-page.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { RegisterComponent } from './components/pages/register/register.component';
+import { PasswordInputComponent } from './components/password-input/password-input.component';
+import { LogoutPageComponent } from './components/pages/logout-page/logout-page.component';
+import { OverlayComponent } from './components/pages/homepage/overlay/overlay.component';
+import { HomepageComponent } from './components/pages/homepage/homepage.component';
+import { AccountComponent } from './components/pages/account/account.component';
+import { LoadingSpinnerComponent } from './components/pages/loading-spinner/loading-spinner.component';
+import { StoreModule } from '@ngrx/store';
+import { AppReducers } from './store/app.reducer';
+import { HoverDirective } from './directives/hover.directive';
+import { HiddenCreditCardNoPipe } from './pipes/hidden-credit-card-no.pipe';
+import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
+import { HttpErrorInterceptor } from 'src/interceptors/http-error.interceptor';
+import { WalletPageComponent } from './components/pages/wallet/wallet.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +91,15 @@ import { CheckoutPageComponent } from './components/pages/checkout-page/heckout-
     BrandEditFormComponent,
     ColorAddFormComponent,
     ColorEditFormComponent,
+    LoginComponent,
+    RegisterComponent,
+    PasswordInputComponent,
+    LogoutPageComponent,
+    AccountComponent,
+    LoadingSpinnerComponent,
+    HoverDirective,
+    HiddenCreditCardNoPipe,
+    WalletPageComponent
   ],
   imports: [
     BrowserModule,
@@ -87,8 +111,12 @@ import { CheckoutPageComponent } from './components/pages/checkout-page/heckout-
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }),
+    StoreModule.forRoot(AppReducers),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

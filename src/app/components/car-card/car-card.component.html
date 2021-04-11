@@ -21,7 +21,11 @@
       {{ carDetail.brandName }} {{ carDetail.description }}
     </h5>
     <p class="mt-1 card-text text-primary fs-3">${{ carDetail.dailyPrice }}</p>
-    <button class="btn btn-primary w-100" routerLink="/car/{{ carDetail.carID}}">
+    <button 
+    routerLink="/car/{{ carDetail.carID}}"
+    class="btn btn-primary w-100"  
+    appHover 
+    >
       Rent Now
     </button>
   </div>

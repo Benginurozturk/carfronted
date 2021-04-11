@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AccountComponent } from './components/pages/account/account.component';
 import { AdminDashboardPageComponent } from './components/pages/admin-dashboard-page/admin-dashboard-page.component';
 import { BrandAddFormComponent } from './components/pages/admin-dashboard-page/brands-dashboard/brand-add-form/brand-add-form.component';
 import { BrandEditFormComponent } from './components/pages/admin-dashboard-page/brands-dashboard/brand-edit-form/brand-edit-form.component';
@@ -14,9 +15,18 @@ import { ColorsDashboardComponent } from './components/pages/admin-dashboard-pag
 import { CarPageComponent } from './components/pages/car-page/car-page.component';
 import { CarsPageComponent } from './components/pages/cars-page/cars-page.component';
 import { CheckoutPageComponent } from './components/pages/checkout-page/heckout-page.component';
+import { HomepageComponent } from './components/pages/homepage/homepage.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { LogoutPageComponent } from './components/pages/logout-page/logout-page.component';
+
 
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
-import { HomepageComponent } from './pages/homepage/homepage.component';
+import { RegisterComponent } from './components/pages/register/register.component';
+import { WalletPageComponent } from './components/pages/wallet/wallet.component';
+import { AdminGuard } from './guards/admin.guard';
+import { LoginGuard } from './guards/login.guard';
+
+
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomepageComponent },
@@ -36,6 +46,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminDashboardPageComponent,
+    canActivate: [LoginGuard, AdminGuard],
     children: [
       {
         path: 'cars',
@@ -79,6 +90,24 @@ const routes: Routes = [
       },
     ],
   },
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: RegisterComponent },
+  { path: 'logout', component: LogoutPageComponent },
+  
+  {
+    path: 'account',
+    canActivate: [LoginGuard],
+    component: AccountComponent,
+  },
+
+  {
+    path: 'wallet',
+    canActivate: [LoginGuard],
+    component: WalletPageComponent,
+  },
+
+  
+
   { path: '404', component: NotFoundPageComponent },
   { path: '**', redirectTo: '404' },
 ];

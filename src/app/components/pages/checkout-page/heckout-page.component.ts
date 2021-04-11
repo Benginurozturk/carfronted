@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Car } from 'src/app/models/car';
 import { CarDateCalculateDto } from 'src/app/models/carDateCalculateDto';
 import { Rental } from 'src/app/models/rental';
+import { UserDetailDto } from 'src/app/models/userDetailDto';
 import { CarService } from 'src/app/services/car.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { RentalService } from 'src/app/services/rental.service';
+import { UserService } from 'src/app/services/userservice';
 
 @Component({
   selector: 'app-checkout-page',
@@ -14,6 +17,8 @@ import { RentalService } from 'src/app/services/rental.service';
 })
 export class CheckoutPageComponent implements OnInit {
   paymentSuccessfull!: boolean;
+  customer:UserDetailDto;
+  car:Car
 
   constructor(
     private rentalService: RentalService,
@@ -21,7 +26,8 @@ export class CheckoutPageComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private carService: CarService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private userService:UserService
   ) {}
 
   rentalId!: number;
@@ -35,6 +41,9 @@ export class CheckoutPageComponent implements OnInit {
         
       }
     });
+    this.getCustomerDetail()
+    this.getCarDetail()
+   
     // if (!this.rentalService.rentalCheckout) this.router.navigateByUrl('404');
   }
 
@@ -57,17 +66,34 @@ export class CheckoutPageComponent implements OnInit {
     });
   }
 
+  getCustomerDetail(){
+    this.userService.getUserDetailByEmail(localStorage.getItem("email")).subscribe(response =>{
+       this.customer = response.data
+    })
+  }
+
+  getCarDetail(){
+    this.carService.getCarById(this.rental.carID).subscribe(response => {
+      this.car = response.data
+    })
+  }
+
   payment() {
-    this.paymentService.test().subscribe(
-      (response) => {
-        this.paymentSuccessfull = true;
-        this.toastr.success(response.message);
-      },
-      (error) => {
-        this.paymentSuccessfull = false;
-        this.toastr.error(error.error.message);
-      }
-    );
+    if(this.customer.findexScore>=parseInt(localStorage.getItem("findex"))){
+      this.paymentService.payment().subscribe(
+        (response) => {
+          
+          this.paymentSuccessfull = true;
+          this.toastr.success(response.message);
+        },
+        (error) => {
+          this.paymentSuccessfull = false;
+          this.toastr.error(error.error.message);
+        }
+      );
+    }else{
+      this.toastr.error("findeks skoru yeterli değil")
+    }
   }
 
   

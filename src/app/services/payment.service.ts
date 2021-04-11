@@ -12,8 +12,8 @@ export class PaymentService {
 
   constructor(private httpClient: HttpClient) {}
 
-  // Test
-  test(): Observable<ResponseModel> {
-    return this.httpClient.get<ResponseModel>(`${this.controllerUrl}/test`);
+  // Payment
+  payment(): Observable<ResponseModel> {
+    return this.httpClient.get<ResponseModel>(`${this.controllerUrl}/payment`);
   }
 }

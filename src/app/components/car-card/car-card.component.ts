@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CarDetail } from 'src/app/models/carDetail';
 import { CarImage } from 'src/app/models/carImage';
 import { CarImageService } from 'src/app/services/car-image.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-car-card',
@@ -29,7 +30,7 @@ export class CarCardComponent implements OnInit {
       .subscribe((response) => {
       
         this.carImage = response.data[0];
-        this.carImageUrl = "https://localhost:44306"+response.data[0].imagePath
+        this.carImageUrl = `${environment.apiUrl.replace('api','')}${response.data[0].imagePath}`;
       });
   }
 }

@@ -12,6 +12,7 @@ import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
 import { RentalService } from 'src/app/services/rental.service';
 import { RentalAddDto } from 'src/app/models/rentalAddDto';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-car-page',
   templateUrl: './car-page.component.html',
@@ -45,14 +46,15 @@ export class CarPageComponent implements OnInit {
   }
 
   carId!: number;
-
+  onlyImageApiUrl:string=environment.apiUrl.replace('api','');
   getCarById(carId: number) {
     this.carService.getCarById(carId).subscribe((response) => {
       this.car = response.data;
-
+      
       this.getColorById(this.car.colorID);
       this.getCarImagesById(this.car.carID);
       this.getBrandById(this.car.brandID);
+      localStorage.setItem("findex", this.car.minFindeksScore.toString())
     });
   }
 

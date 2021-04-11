@@ -36,6 +36,13 @@ export class RentalService {
     );
   }
 
+  checkFindeksScoreSufficiency(rental: Rental): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      `${this.apiUrl}/checkfindeksscoresufficiency`,
+      rental
+    );
+  }
+
   isRentable(rental: Rental): Observable<ResponseModel> {
     return this.httpClient
       .post<ResponseModel>(`${this.apiUrl}/isrentable`, { ...rental })

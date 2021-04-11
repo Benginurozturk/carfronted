@@ -1,0 +1,41 @@
+
+  
+    <div class="imgcontainer">
+      <img src="../../../../assets/images/Maserati-Background-PNG-Image.png" >
+    </div>
+   
+    <div class="container"> 
+        <form [formGroup]="loginForm">
+      <label for="uname"><b>Usermail</b></label>
+      
+      <input 
+      formControlName="email"
+      type="text" 
+      placeholder="Enter Usermail"
+      name="uname" required>
+  
+      <label for="psw"><b>Password</b></label>
+      <input 
+      formControlName="password"
+      type="password" placeholder="Enter Password" name="psw" required>
+  
+      <button type="submit" (click)="login()">Login</button>
+    
+      </form>
+    </div>
+  
+    <div class="container" style="background-color:#ebe7f3">
+      <button type="button" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+
+    <div class="col-md d-none d-md-block my-auto">
+        <h1 class="display-6 fw-light text-secondary text-center mb-5">
+          Nice to see you again
+        </h1>
+        
+        <a class="d-none" href="https://www.freepik.com/vectors/background"
+          >Background vector created by rawpixel.com - www.freepik.com</a
+        >
+      </div>
+ 

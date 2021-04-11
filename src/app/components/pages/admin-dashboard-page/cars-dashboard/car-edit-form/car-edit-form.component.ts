@@ -64,13 +64,14 @@ export class CarEditFormComponent implements OnInit {
 
   createCarForm() {
     this.carEditForm = this.formBuilder.group({
-      //name: [this.car.description, Validators.required],
+      name: ["", Validators.required],
       brandId: [this.car.brandID, Validators.required],
       colorId: [this.car.colorID, Validators.required],
       dailyPrice: [this.car.dailyPrice, Validators.required],
       modelYear: [this.car.modelYear, Validators.required],
       description: [this.car.description, Validators.required],
       brandFilterText: [''],
+      minFindeksScore: [''],
       colorFilterText: [''],
     });
   }
@@ -84,7 +85,10 @@ export class CarEditFormComponent implements OnInit {
   getColors() {
     this.colorService
       .getColors()
-      .subscribe((response) => (this.colors = response.data));
+      .subscribe((response) => {
+        this.colors = response.data
+        console.log(this.colors)
+      });
   }
 
   update() {

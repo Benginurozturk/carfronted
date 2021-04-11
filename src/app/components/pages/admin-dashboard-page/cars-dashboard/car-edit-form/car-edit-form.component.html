@@ -1,8 +1,17 @@
-<h1 class="display-6 fw-bold mb-3">Car Edit</h1>
+<div class="d-flex justify-content-between">
+  <h1 class="display-6 fw-bold mb-3">Car Edit</h1>
+  <button
+    *ngIf="car"
+    routerLink="/admin/cars/edit/images/{{ car.carID }}"
+    class="btn btn-sm btn-success shadow-sm mb-3"
+  >
+    <i class="fas fa-images"></i> Car Images
+  </button>
+</div>
 <div class="card p-2 rounded-2 shadow-xl">
   <div class="card-body shadow">
-    <form [formGroup]="carEditForm">
-      <!-- <div class="form-group mb-3">
+    <form *ngIf="carEditForm" [formGroup]="carEditForm">
+      <div class="form-group mb-3">
         <label for="car-name-input" class="fw-bold mb-3">Car Name</label>
         <input
           type="text"
@@ -11,7 +20,7 @@
           class="form-control"
           placeholder="Car Name"
         />
-      </div> -->
+      </div>
 
       <div class="row">
         <div id="brand-input" class="col-md mb-3">
@@ -66,10 +75,7 @@
             size="5"
           >
             <option
-              *ngFor="
-                let color of colors
-                  | filterColor: this.carEditForm.value['colorFilterText']
-              "
+              *ngFor="let color of colors"
               value="{{ color.colorID }}"
             >
               {{ color.colorName }}
@@ -85,6 +91,19 @@
           id="daily-price-input"
           class="form-control"
           placeholder="Daily Price"
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="min-findeks-score-input" class="fw-bold mb-3"
+          >Minimum Findeks Score</label
+        >
+        <input
+          id="min-findeks-score-input"
+          type="number"
+          formControlName="minFindeksScore"
+          class="form-control"
+          placeholder="Min Findeks Score"
         />
       </div>
 

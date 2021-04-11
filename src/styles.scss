@@ -1,8 +1,8 @@
 
 
-$dark: #222831;
-$light-dark: #393e46;
-$main-color: #00adb5;
+$dark: #254679;
+$light-dark: #e2e8f1;
+$main-color: #a777a3;
 $light-main-color: #b3fcff;
 $light: #eeeeee;
 
@@ -25,11 +25,11 @@ $light: #eeeeee;
 }
 
 .bg-primary-gradient {
-  background: rgb(2, 188, 196);
+  background: rgb(115, 33, 90);
   background: linear-gradient(
     90deg,
-    rgba(2, 188, 196, 1) 0%,
-    rgba(0, 173, 181, 1) 45%
+    rgba(115, 33, 90, 1) 0%,
+    rgb(58, 87, 136) 45%
   );
 }
 
