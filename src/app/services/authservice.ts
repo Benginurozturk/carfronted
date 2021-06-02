@@ -54,6 +54,9 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('fullName');
+    localStorage.removeItem('email');
+    localStorage.removeItem('customerId');
+    localStorage.removeItem('userFindex');
   }
   setUserDetail(userDetail: UserDetailDto) {
     this.store.dispatch(setUserDetail({ userDetailDto: userDetail }));

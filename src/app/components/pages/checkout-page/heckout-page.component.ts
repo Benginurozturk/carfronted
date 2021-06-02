@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Car } from 'src/app/models/car';
@@ -6,6 +7,7 @@ import { CarDateCalculateDto } from 'src/app/models/carDateCalculateDto';
 import { Rental } from 'src/app/models/rental';
 import { UserDetailDto } from 'src/app/models/userDetailDto';
 import { CarService } from 'src/app/services/car.service';
+import { CreditCardService } from 'src/app/services/credit-card.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { RentalService } from 'src/app/services/rental.service';
 import { UserService } from 'src/app/services/userservice';
@@ -19,7 +21,8 @@ export class CheckoutPageComponent implements OnInit {
   paymentSuccessfull!: boolean;
   customer:UserDetailDto;
   car:Car
-
+  isChecked:boolean;
+  paymentForm:FormGroup;
   constructor(
     private rentalService: RentalService,
     private paymentService: PaymentService,
@@ -27,9 +30,11 @@ export class CheckoutPageComponent implements OnInit {
     private toastr: ToastrService,
     private carService: CarService,
     private activatedRoute: ActivatedRoute,
-    private userService:UserService
+    private userService:UserService,
+    private formBuilder:FormBuilder,
+    private creditCardService:CreditCardService
   ) {}
-
+  
   rentalId!: number;
   rental!:Rental;
   totalPrice!:number;
@@ -41,15 +46,25 @@ export class CheckoutPageComponent implements OnInit {
         
       }
     });
-    this.getCustomerDetail()
     this.getCarDetail()
-   
+    this.getCustomerDetail()
+    console.log(this.customer)
     // if (!this.rentalService.rentalCheckout) this.router.navigateByUrl('404');
+  }
+  createPaymentForm(){
+    this.paymentForm = this.formBuilder.group({
+      nameSurname:["",Validators.required],
+      cardNumber:["",Validators.required],
+      expMonth:["",Validators.required],
+      expYear:["",Validators.required],
+      cvc:["",Validators.required],
+
+    })
   }
 
   getTotalPrice() {
     let calculateModel : CarDateCalculateDto={
-      carId : this.rental.carID,
+      carId :1,
       rentDate : this.rental.rentStartDate,
       returnDate : this.rental.rentEndDate
     };
@@ -58,9 +73,28 @@ export class CheckoutPageComponent implements OnInit {
     });
   }
   
+  SaveCard() {
+    if (this.isChecked == true) {
+      let cardModel = Object.assign(
+        { customerId: Number(localStorage.getItem('customerId')) },
+        this.paymentForm.value
+      );
+      console.log(cardModel);
+      this.creditCardService.saveCard(cardModel).subscribe(
+        (response) => {
+          this.toastr.success(response.message);
+        },
+        (responseError) => {
+          this.toastr.error(
+            responseError.error.message,
+            'Kart Kaydedilemedi'
+          );
+        }
+      );
+    }
+  }
   getRentalById(id: number) {
     this.rentalService.getById(id).subscribe((response) => {
-      console.log(response.data);
       this.rental = response.data;
       this.getTotalPrice();
     });
@@ -69,20 +103,22 @@ export class CheckoutPageComponent implements OnInit {
   getCustomerDetail(){
     this.userService.getUserDetailByEmail(localStorage.getItem("email")).subscribe(response =>{
        this.customer = response.data
+      
     })
   }
 
   getCarDetail(){
-    this.carService.getCarById(this.rental.carID).subscribe(response => {
+    this.carService.getCarById(this.rental?.carID).subscribe(response => {
       this.car = response.data
     })
   }
 
-  payment() {
-    if(this.customer.findexScore>=parseInt(localStorage.getItem("findex"))){
+    payment() 
+    {
+    if(parseInt(localStorage.getItem("userFindex"))>=parseInt(localStorage.getItem("findex"))){
       this.paymentService.payment().subscribe(
         (response) => {
-          
+          this.SaveCard();
           this.paymentSuccessfull = true;
           this.toastr.success(response.message);
         },

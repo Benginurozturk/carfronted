@@ -15,17 +15,8 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getUserDetailByEmail(
-    userMail: string
-  ): Observable<SingleResponseModel<UserDetailDto>> {
-    return this.httpClient.get<SingleResponseModel<UserDetailDto>>(
-      `${this.apiControllerUrl}/getuserdetailbymail`,
-      {
-        params: {
-          userMail: userMail,
-        },
-      }
-    );
+  getUserDetailByEmail(userMail: string): Observable<SingleResponseModel<UserDetailDto>> {
+    return this.httpClient.get<SingleResponseModel<UserDetailDto>>(`${this.apiControllerUrl}/getuserdetailbymail?userMail=`+ userMail);
   }
 
   updateUserDetails(

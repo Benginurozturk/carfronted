@@ -44,8 +44,8 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      {{ userDetail?.firstName }}
-      {{userDetail?.lastName }}
+      {{ firstName }}
+      {{lastName }}
     </button>
     <ul class="dropdown-menu" aria-labelledby="accountMenu">
       <li>
@@ -54,7 +54,7 @@
       <li>
         <a routerLink="wallet" class="dropdown-item">Wallet</a>
       </li>
-      <li><a routerLink="logout" class="dropdown-item">Log out</a></li>
+      <li><a class="dropdown-item" (click)= "logOut()" >Log out</a></li>
     </ul>
   </div>
     

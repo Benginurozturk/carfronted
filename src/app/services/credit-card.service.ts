@@ -23,12 +23,13 @@ export class CreditCardService {
     );
   }
 
-  add(creditCard: CreditCard): Observable<ResponseModel> {
+  saveCard(card: CreditCard): Observable<ResponseModel> {
     return this.httpClient.post<ResponseModel>(
-      `${this.apiControllerUrl}/add`,
-      creditCard
+      environment.apiUrl + 'add',
+      card
     );
   }
+
 
   delete(creditCard: CreditCard): Observable<ResponseModel> {
     return this.httpClient.post<ResponseModel>(

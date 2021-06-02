@@ -12,6 +12,7 @@
         <input
           type="text"
           class="form-control"
+          formControlName ="nameSurname"
           id="name-on-card-input"
           placeholder=""
           required
@@ -22,6 +23,7 @@
         <input
           type="text"
           class="form-control"
+          formControlName ="cardNumber"
           id="name-on-card-input"
           placeholder="0000-0000-0000-0000"
           required
@@ -37,6 +39,7 @@
             <input
               type="number"
               class="form-control"
+              formControlName ="expMonth"
               placeholder="Month"
               required
             />
@@ -44,6 +47,7 @@
             <input
               type="number"
               class="form-control"
+              formControlName ="expYear"
               placeholder="Year"
               required
             />
@@ -56,9 +60,20 @@
             id="cvv-input"
             type="number"
             class="form-control"
+            formControlName ="cvc"
             placeholder="000"
             required
           />
+        </div>
+        <div class="form-check form-switch">
+          <input
+            [(ngModel)]="isChecked"
+            class="form-check-input"
+            type="checkbox"
+            id="isChecked"
+            checked
+          />
+          <label class="form-check-label" for="isChecked">Kartımı kaydet</label>
         </div>
       </div> 
   

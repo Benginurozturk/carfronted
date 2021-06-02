@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserDetailDto } from 'src/app/models/userDetailDto';
 import { AuthService } from 'src/app/services/authservice';
@@ -12,13 +13,15 @@ import { UserService } from 'src/app/services/userservice';
 })
 export class NavbarComponent 
 implements OnInit {
+  firstName:string = localStorage.getItem("firstName")
+  lastName:string = localStorage.getItem("lastName")
   userDetail:UserDetailDto
    userLoginStatus:boolean=false
-  constructor(private authService:AuthService,private userService:UserService) {}
+  constructor(private authService:AuthService,private userService:UserService, private router : Router) {}
 
   ngOnInit(): void {
     this.isLogin()
-    this.getUserByEmail()
+    //this.getUserByEmail()
   }
 
    isLogin() {
@@ -30,15 +33,12 @@ implements OnInit {
    }
    }
 
-   getUserByEmail(){
-     this.userService.getUserDetailByEmail(
-       localStorage.getItem("email")
+   logOut() {
+    this.authService.logout();
+    this.router.navigate(['']);
+    window.location.reload();
+  }
 
-     ).subscribe((response)=>{
-       this.userDetail=response.data
-       console.log(this.userDetail)
-       localStorage.setItem("customerId", response.data.customerId.toString())
-     })
-   }
+   
    
 }
